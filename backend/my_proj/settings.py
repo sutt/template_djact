@@ -39,17 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'my_app',
     'django_extensions',
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'my_proj.urls'
 
@@ -88,6 +93,20 @@ DATABASES = {
     }
 }
 
+# import rest_framework
+# from rest_framework.settings import DEFAULTS
+# from rest_framework.permissions import (DjangoModelPermissionsOrAnonReadOnly,
+#                                         AllowAny
+#                                         )
+# rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

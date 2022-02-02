@@ -3,5 +3,7 @@ from . import views
 
 urlpatterns = [
     path('ok/', views.ok_view),
-    path('tweets', views.list_tweets),
+    path('list_tweets', views.list_tweets),
+    path('tweets/', views.TweetList.as_view()),
+    path('tweets/<int:pk>', views.TweetDetail.as_view()),
 ]
