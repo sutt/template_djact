@@ -19,7 +19,7 @@ function ListTweets({userSignedIn}) {
 
   return (
   <div>
-      <h1>Tweet Timeline</h1>
+      <h3>Tweet Timeline</h3>
       <ul>
       {
         tweets.map((item,ind) => {

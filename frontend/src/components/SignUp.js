@@ -19,6 +19,7 @@ function SignUp({setUserSignedIn}) {
             setClientErrMsg(`${blankFields[0][0]} can not be blank`)
             return false
         }
+        setClientErrMsg(null)
         return true
     }
 
@@ -33,7 +34,6 @@ function SignUp({setUserSignedIn}) {
 
         setNetworkErrMsg(null)
         if (!clientFormValidation(formInfo)) {
-            setClientErrMsg()
             return
         }
         

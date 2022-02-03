@@ -17,10 +17,9 @@ function Login({setUserSignedIn}) {
                                   .filter(kv => kv[1] === '')
         if (blankFields.length > 0) {
             setClientErrMsg(`${blankFields[0][0]} can not be blank`)
-            console.log(`err!`)
-            
             return false
         }
+        setClientErrMsg(null)
         return true
     }
 
@@ -66,7 +65,7 @@ function Login({setUserSignedIn}) {
                     console.log(data)
 
                     setUserSignedIn(data.username)
-                    
+
                     // add tokens to localstorage here
                     // redirect here
                 }

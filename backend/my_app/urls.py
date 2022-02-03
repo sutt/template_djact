@@ -7,6 +7,7 @@ urlpatterns = [
     path('list_tweets', views.list_tweets),
 
     path('mock_login', views.mock_login),
+    path('mock_signup', views.mock_signup),
 
     path('tweets/', views.TweetList.as_view()),
     path('tweets/<int:pk>', views.TweetDetail.as_view()),
