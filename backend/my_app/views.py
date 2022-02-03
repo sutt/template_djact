@@ -15,6 +15,12 @@ def list_tweets(request):
     tweets_list = list(tweets)
     return JsonResponse(tweets_list, safe=False)
 
+def mock_login(request):
+    return JsonResponse({'loggedIn':True, 'username': 'mock_user'})
+
+def mock_signup(request):
+    return JsonResponse({'loggedIn':True, 'username': 'mock_user'})
+
 class TweetList(generics.ListCreateAPIView):
     serializer_class = TweetSerializer
     queryset = Tweet.objects.all()
