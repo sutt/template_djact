@@ -9,7 +9,7 @@ function App() {
   
   //TODO - add browser state check
   const [userSignedIn, setUserSignedIn] = useState(null)
-  const [authToken, setAuthToken] = useState("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzOTM2NTI0LCJpYXQiOjE2NDM5MzYyMjQsImp0aSI6IjQ3OTU1M2E5NzBhMTQzMDU5M2FkNTZjZWQ2YjAyOWY2IiwidXNlcl9pZCI6MX0.YRQ_sqHrVM6lnX1CGUOIxcBz-Y23PgUvbIn8Yd9Yy7k")
+  const [authToken, setAuthToken] = useState(null)
 
   return (
     <div className="App">

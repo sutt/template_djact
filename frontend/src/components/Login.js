@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom'
 
-function Login({setUserSignedIn}) {
+function Login({setUserSignedIn, setAuthToken}) {
     
-    const loginEndpoint = 'mock_login'
+    // const loginEndpoint = 'mock_login'
+    const loginEndpoint = 'api/token/'
 
     const [formInfo, setFromInfo] = useState({username:'', password:''})
     const [networkErrMsg, setNetworkErrMsg] = useState(null)
     const [clientErrMsg, setClientErrMsg] = useState(null)
+
+    const history = useHistory()
 
     const statusCodeToErr = (responseObj) => {
         setNetworkErrMsg(`Network Error of code: ${responseObj.status}`)
@@ -51,7 +55,7 @@ function Login({setUserSignedIn}) {
         )
             .then(res => {
                 if (res.ok) {
-                    return res.json()
+                    return res.json()  // TODO - add try/except
                 } else {
                     statusCodeToErr(res)
                     return Promise.resolve(null)
@@ -64,10 +68,30 @@ function Login({setUserSignedIn}) {
                     
                     console.log(data)
 
-                    setUserSignedIn(data.username)
+                    if (Object.keys(data).includes('detail')) {
+                        if (data.detail == "No active account found with the given credentials") {
+                            setNetworkErrMsg(`username or password not correct`)
+                        } else {
+                            setNetworkErrMsg(`login doesn't seem to be working, response of ${JSON.stringify(data)}`)
+                        }
+                        
+                    }
 
-                    // add tokens to localstorage here
-                    // redirect here
+                    if (Object.keys(data).includes('access')) {
+                    
+                        setUserSignedIn(formInfo.username) //note: insecure method
+
+                        setAuthToken(data.access)
+
+                        // add tokens to localstorage here
+                        
+                        history.push('/')
+
+                    } else {
+                        console.log(`can't find access token. data ${JSON.stringify(data)}`)
+                        setNetworkErrMsg(`json returned without a access key`)
+                    }
+                    
                 }
             })
     }
