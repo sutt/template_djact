@@ -2,7 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react'
 import NewTweet from './NewTweet';
 
-function ListTweets({userSignedIn}) {
+function ListTweets({userSignedIn, authToken}) {
     
     const tweetRestEndpoint = 'tweets'
 
@@ -27,7 +27,9 @@ function ListTweets({userSignedIn}) {
         })
       }
       </ul>
-      {userSignedIn ? <NewTweet/> : null}
+      {userSignedIn ? 
+        <NewTweet userSignedIn={userSignedIn} authToken={authToken} /> 
+        : null}
   </div>
   );
 }

@@ -8,6 +8,7 @@ django-extensions = "*"
 ipython = "*"
 django-cors-headers = "*"
 django-rest-framework = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

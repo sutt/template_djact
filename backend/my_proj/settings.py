@@ -100,12 +100,18 @@ DATABASES = {
 #                                         )
 # rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly
 
+# import rest_framework_simplejwt
+# from rest_framework_simplejwt.authentication import JWTAuthentication
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.AllowAny',
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
 }
 
 # Password validation
