@@ -7,4 +7,6 @@ class TweetSerializer(serializers.HyperlinkedModelSerializer):
         model = Tweet
         fields = ('uuid', 'user_string', 'content',)
 
-# TweetList
+# class ProtectedTweetSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Tweet

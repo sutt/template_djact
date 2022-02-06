@@ -10,7 +10,7 @@ function ListTweets({userSignedIn, authToken}) {
 
     useEffect(() => {
         fetch(process.env.REACT_APP_API_URL + tweetRestEndpoint)
-          .then(res => res.json())
+          .then(res => res.json()) //TODO - add error handling here
           .then(data => {
             console.log(data)
             setTweets(data)

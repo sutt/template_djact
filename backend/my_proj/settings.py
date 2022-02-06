@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
+    
 ]
 
 MIDDLEWARE = [
@@ -95,8 +97,10 @@ DATABASES = {
 
 # import rest_framework
 # from rest_framework.settings import DEFAULTS
-# from rest_framework.permissions import (DjangoModelPermissionsOrAnonReadOnly,
-#                                         AllowAny
+# from rest_framework.permissions import (DjangoModelPermissions,
+#                                         IsAuthenticated,
+#                                         DjangoModelPermissionsOrAnonReadOnly,
+#                                         AllowAny,
 #                                         )
 # rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly
 
@@ -105,8 +109,10 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.DjangoModelPermissions',
+        # 'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework_simplejwt.authentication.JWTAuthentication',

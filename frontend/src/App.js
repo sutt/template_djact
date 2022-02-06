@@ -4,6 +4,7 @@ import {Route, Link} from 'react-router-dom'
 import ListTweets from './components/ListTweets'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
+import Profile from './components/Profile'
 
 function App() {
   
@@ -22,7 +23,11 @@ function App() {
       
       {userSignedIn ? (
         <nav>
-          <span>signed in as: {userSignedIn}</span>
+          <Link to='/profile/' >
+            <span>
+              signed in as: {userSignedIn}
+            </span>
+          </Link>
         </nav>  
         ) 
         : null
@@ -44,6 +49,12 @@ function App() {
           <Login 
             setUserSignedIn={setUserSignedIn} 
             setAuthToken={setAuthToken}
+            />
+      </Route>
+      <Route   path="/profile">
+          <Profile 
+            userSignedIn={userSignedIn} 
+            authToken={authToken}
             />
       </Route>
       
