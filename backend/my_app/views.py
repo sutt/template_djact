@@ -40,6 +40,49 @@ def test_permissions(request):
     '''
     return JsonResponse({'ok':True})
 
+# from django.http import HttpRequest
+# HttpRequest.body
+
+@api_view(['GET', 'POST'])
+# @permission_classes([permissions.DjangoModelPermissions])
+def auth_test_one(request):
+    
+    utils.print_properties(request_obj=request)
+    
+    token_data = None
+    if request.auth is not None:
+        token_data = utils.token_analytics(request.auth)
+
+    request_user = request.user.username
+
+    try:
+        import json
+        request_user_2 = json.dumps(
+                            request
+                            .successful_authenticator
+                            .get_user(request.auth)
+                            )
+    except:
+        request_user_2 = None
+
+    request_method = request.method
+
+    request_body = {}
+    if request.method == 'POST':
+        request_body = str(request.body)
+
+    return JsonResponse(
+        {
+            'token_data': token_data,
+            'request_user': request_user,
+            'request_user_2': request_user_2,
+            'request_method': request_method,
+            'request_body': request_body,
+        }
+        ,safe=False
+    )
+    
+
 def list_profile_tweets(request):
     # [ ] get request payload
     # [ ] get user

@@ -1,3 +1,38 @@
+import datetime
+import time
+
+
+def token_analytics(auth):
+
+    auth_payload = auth.payload
+
+    iss_timestamp = auth.payload['iat']
+    exp_timestamp = auth.payload['exp']
+    
+    iss = datetime.datetime.fromtimestamp(iss_timestamp)
+    exp = datetime.datetime.fromtimestamp(exp_timestamp)
+
+    now = datetime.datetime.now()
+
+    is_valid = now < exp
+
+    diff_exp_now_secs = (exp - now).seconds
+
+    data = {
+        'iss_timestamp' : iss_timestamp,
+        'exp_timestamp' : exp_timestamp,
+        'iss'           : iss.ctime(),
+        'exp'           : exp.ctime(),
+        'server_now'    : now.ctime(),
+        'is_valid'      : is_valid,
+        'diff_exp_now_secs' : diff_exp_now_secs,
+
+    }
+
+    return data
+    
+
+
 
 
 def  print_properties(request_obj=None, view_class=None):

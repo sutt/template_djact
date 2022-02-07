@@ -10,6 +10,7 @@ urlpatterns = [
     path('mock_signup', views.mock_signup),
 
     path('test_permissions', views.test_permissions),
+    path('auth_test_one', views.auth_test_one ),
 
     path('list_profile_tweets', views.list_profile_tweets),
     path('list_profile_tweets_serialized', views.ProtectedTweetList.as_view()),

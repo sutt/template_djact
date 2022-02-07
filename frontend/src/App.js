@@ -5,7 +5,7 @@ import ListTweets from './components/ListTweets'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
 import Profile from './components/Profile'
-
+import AuthTestMain from './components/AuthTestMain';
 function App() {
   
   //TODO - add browser state check
@@ -18,7 +18,8 @@ function App() {
       <nav>
         <Link to="/">Home | </Link>
         <Link to="/signup"> Sign Up | </Link>
-        <Link to="/login">Login</Link>
+        <Link to="/login">Login | </Link>
+        <Link to="/authtest1">AuthTest1</Link>
       </nav>
       
       {userSignedIn ? (
@@ -57,7 +58,12 @@ function App() {
             authToken={authToken}
             />
       </Route>
-      
+      <Route   path="/authtest1">
+          <AuthTestMain 
+            userSignedIn={userSignedIn} 
+            authToken={authToken}
+            />
+      </Route>
     </div>
   );
 }
