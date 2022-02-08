@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom'
 
 function Login({setUserSignedIn, setAuthToken}) {
-    
+        
     // const loginEndpoint = 'mock_login'
     const loginEndpoint = 'api/token/'
 
     const [formInfo, setFromInfo] = useState({username:'', password:''})
     const [networkErrMsg, setNetworkErrMsg] = useState(null)
     const [clientErrMsg, setClientErrMsg] = useState(null)
+
 
     const history = useHistory()
 
@@ -41,6 +42,10 @@ function Login({setUserSignedIn, setAuthToken}) {
         if (!clientFormValidation(formInfo)) {
             return
         }
+
+        // really should get all data here put into fetch to avoid changes
+        // before async fetch commands run via handleChange on formInfo (?)
+        const suppliedUserName = formInfo.username 
         
         const apiUrl = process.env.REACT_APP_API_URL
         
@@ -79,11 +84,14 @@ function Login({setUserSignedIn, setAuthToken}) {
 
                     if (Object.keys(data).includes('access')) {
                     
-                        setUserSignedIn(formInfo.username) //note: insecure method
+                        setUserSignedIn(suppliedUserName) //note: insecure method
 
                         setAuthToken(data.access)
 
                         // add tokens to localstorage here
+                        localStorage.setItem('accessToken', data.access)
+                        localStorage.setItem('refreshToken', data.refresh)
+                        localStorage.setItem('currentUser', suppliedUserName)
                         
                         history.push('/')
 
