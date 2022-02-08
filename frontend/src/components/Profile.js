@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 
 function Profile({userSignedIn, authToken}) {
   
-    // const profileEndpoint = 'list_profile_tweets'
-    const profileEndpoint = 'list_profile_tweets_serialized'
+    const profileEndpoint = 'list_profile_tweets'
+    // const profileEndpoint = 'list_profile_tweets_serialized'
     
     const [networkErrMsg, setNetworkErrMsg] = useState(null)
 

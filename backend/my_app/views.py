@@ -102,8 +102,7 @@ class AuthTestThree(generics.GenericAPIView):
     # authentication_classes = []
 
     def get_queryset(self):
-        # return super().get_queryset()
-        pass
+        pass  # required to override this property on this dummy view class
 
     def get(self, request, *args, **kwargs):
         return JsonResponse({
@@ -125,17 +124,16 @@ class AuthTestThree(generics.GenericAPIView):
         }
     )
 
-
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def list_profile_tweets(request):
-    # [ ] get request payload
-    # [ ] get user
-    # [ ] protect route
+    # [~] get request payload
+    # [x] get user
+    # [x] protect route
     # [x] ORM for query
-    
-    # request.user.is_authenticated
-    # auth_user = base_authenticate()
-    
-    user_name = "unknown_user"
+    # print("\n".join(dir(request.user)))
+
+    user_name = request.user.username
     
     profile_tweets = list(
         Tweet.objects
@@ -145,23 +143,17 @@ def list_profile_tweets(request):
     )
     return JsonResponse(profile_tweets, safe=False)
 
+
 class ProtectedTweetList(generics.ListAPIView):
     
     serializer_class = TweetSerializer
     queryset = Tweet.objects.all()
     
     permission_classes = [
-        # permissions.IsAuthenticated,
-        # permissions.DjangoModelPermissions,
-        permissions.AllowAny,        
+        permissions.IsAuthenticated,
     ]
     
-    # if this is left empty, it will turn off 
-    # the default simple_jwt auth class, and 
-    # request.user.is_authenticated will fail
-    # authentication_classes = [
-        # default_user_authentication_rule()
-    # ]
+    # authentication_classes = []
     
     def get(self, request, *args, **kwargs):
         utils.print_properties(
@@ -173,21 +165,19 @@ class ProtectedTweetList(generics.ListAPIView):
 
     
 class TweetList(generics.ListCreateAPIView):
+    
     serializer_class = TweetSerializer
     queryset = Tweet.objects.all()
     
-    # permissions_classes = [
-    #     permissions.AllowAny,
-    #     permissions.DjangoModelPermissions,
-    # ]
-
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+    ]
 
     def post(self, request, *args, **kwargs):
-        print(request.user.is_authenticated)
-        user_name = request.data.get("username", None)
-        if user_name is not None:
-            request.data['user_string'] = user_name
+        if request.user.username is not None:
+            request.data['user_string'] = request.user.username
         return self.create(request, *args, **kwargs)
+
 
 class TweetDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TweetSerializer

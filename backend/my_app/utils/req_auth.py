@@ -186,6 +186,60 @@ def test_jwt_response_1():
     assert res_obj.status_code == 401
 
 
+def test_new_tweet_is_protected():
+
+    # un-authed GET to this route should work
+    endpoint = 'tweets/'
+    res = make_request(url=base + endpoint)
+    assert res is not None
+    
+    # un-authed POST to this route should 401
+    endpoint = 'tweets/'
+    method = 'POST'
+    data = {'username': 'test_mock_1', 'content':'testing command'}
+    res = make_request(url=base + endpoint, method=method, data=data)
+    assert res is None
+
+    # get jwt
+    endpoint = 'api/token/'
+    method = 'POST'
+    data = {'username': 'test_mock_1', 'password': 'password'}
+    token_res = make_request(url=base + endpoint, method=method, data=data)
+    assert token_res is not None
+
+    # authed POST should work returning an object
+    endpoint = 'tweets/'
+    method = 'POST'
+    data = {'username':'test_mock_1', 'content':'testing command'}
+    headers = make_auth_header(token_res['access'])
+    res = make_request(url=base + endpoint, method=method, data=data, headers=headers)
+    assert res is not None
+    assert res.get('user_string', None) == 'test_mock_1'
+
+
+def test_new_tweet_uses_auth_user():
+
+    # get jwt
+    endpoint = 'api/token/'
+    method = 'POST'
+    data = {'username': 'test_mock_1', 'password': 'password'}
+    token_res = make_request(url=base + endpoint, method=method, data=data)
+    assert token_res is not None
+
+    # make a new tweet with:
+    # auth user: test_mock_1
+    # request payload: username: wrong_user
+    endpoint = 'tweets/'
+    method = 'POST'
+    data = {'username': 'wrong_user', 'content':'testing command (wrong user)'}
+    headers = make_auth_header(token_res['access'])
+    res = make_request(url=base + endpoint, method=method, data=data, headers=headers)
+    assert res is not None
+    assert res.get('user_string', None) == 'test_mock_1'
+    
+
+
+
 
 if __name__ == "__main__":
     pass
