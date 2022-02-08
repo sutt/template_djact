@@ -11,6 +11,8 @@ urlpatterns = [
 
     path('test_permissions', views.test_permissions),
     path('auth_test_one', views.auth_test_one ),
+    path('auth_test_two', views.auth_test_two ),
+    path('auth_test_three', views.AuthTestThree.as_view() ),
 
     path('list_profile_tweets', views.list_profile_tweets),
     path('list_profile_tweets_serialized', views.ProtectedTweetList.as_view()),

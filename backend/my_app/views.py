@@ -81,7 +81,50 @@ def auth_test_one(request):
         }
         ,safe=False
     )
+
+@api_view(['GET', 'POST'])
+@permission_classes([permissions.IsAuthenticated])
+def auth_test_two(request):
+    return JsonResponse({
+        'success': True,
+        'endpoint': 'auth_test_two',
+        # TODO - how to get permission classes here
+        # 'route_permission_classes': str(self.permission_classes), 
+        # 'route_authentication_classes': str(self.authentication_classes)
+        }
+    )
+
+class AuthTestThree(generics.GenericAPIView):
     
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.AllowAny]
+    
+    # authentication_classes = []
+
+    def get_queryset(self):
+        # return super().get_queryset()
+        pass
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({
+            'success': True,
+            'endpoint': 'auth_test_two',
+            'method': 'GET',
+            'route_permission_classes': str(self.permission_classes), 
+            'route_authentication_classes': str(self.authentication_classes)
+        }
+    )
+
+    def post(self, request, *args, **kwargs):
+        return JsonResponse({
+            'success': True,
+            'endpoint': 'auth_test_two',
+            'method': 'GET',
+            'route_permission_classes': str(self.permission_classes), 
+            'route_authentication_classes': str(self.authentication_classes),
+        }
+    )
+
 
 def list_profile_tweets(request):
     # [ ] get request payload
