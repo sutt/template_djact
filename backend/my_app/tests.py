@@ -127,7 +127,7 @@ class BasicTests(LiveServerTestCase):
 
     def test_new_tweet_uses_auth_user(self):
 
-        token_res = self.myclient.get_login_token(username='tesT_user')
+        token_res = self.myclient.get_login_token(username='test_user')
 
         # make a new tweet with:
         # auth user: test_user
@@ -150,6 +150,7 @@ class BasicTests(LiveServerTestCase):
     #     print('\ntest server hanging...\n')
     #     print(self.client)
     #     print(self.live_server_url)
+    #     import time
     #     time.sleep(30)
     #     print('...finished hang test.\n')
 

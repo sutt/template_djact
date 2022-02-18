@@ -9,7 +9,7 @@ class CustomClient:
 
     def __init__(self, 
         live_server_url=None,
-        explicit_localhost_ip=False,
+        explicit_localhost_ip=True,
         ):
 
         self.method =  'GET'
@@ -24,7 +24,6 @@ class CustomClient:
             # http://localhost:58888 -> http://127.0.0.1:58888/
             # because this is faster when dealing with DNS from 
             # cold-started requests library
-            # BUT - the django test server doesn't run on 127.0.0.1 ??
             live_server_url = live_server_url.replace(
                                     'localhost', '127.0.0.1'
                                     )
