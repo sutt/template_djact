@@ -1,15 +1,26 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom'
 
 function SignUp({setUserSignedIn}) {
 
-    const signUpEndpoint = 'mock_signup'
+    const signUpEndpoint = 'api/auth/signup/'
 
     const [formInfo, setFromInfo] = useState({username:'', password:''})
     const [networkErrMsg, setNetworkErrMsg] = useState(null)
     const [clientErrMsg, setClientErrMsg] = useState(null)
 
+    const history = useHistory()
+
     const statusCodeToErr = (responseObj) => {
-        setNetworkErrMsg(`Network Error of code: ${responseObj.status}`)
+        const statusCode = responseObj.status
+        let errorText = ''
+        responseObj.text().then(text => {
+            errorText = text
+        
+            setNetworkErrMsg(`Network Error of code: ${statusCode}` +
+                             ` | response text: ${errorText}`
+            )
+        })
     }
 
     const clientFormValidation = (formInfo) => {
@@ -29,8 +40,10 @@ function SignUp({setUserSignedIn}) {
   
     const handleLogin = (e) => {
         
-        console.log(formInfo)
         e.preventDefault()
+
+        const submitFormInfo = {...formInfo, email:'fake@email.com'}
+        console.log(submitFormInfo)
 
         setNetworkErrMsg(null)
         if (!clientFormValidation(formInfo)) {
@@ -45,7 +58,7 @@ function SignUp({setUserSignedIn}) {
                     headers: {
                         'Content-Type':'application/json',
                     },
-                    body: JSON.stringify(formInfo)
+                    body: JSON.stringify(submitFormInfo)
                 }
         )
             .then(res => {
@@ -63,17 +76,19 @@ function SignUp({setUserSignedIn}) {
                     
                     console.log(data)
                     
-                    setUserSignedIn(data.username)
+                    // setUserSignedIn(data.username)
 
-                    // add tokens to localstorage here
+                    // add call to login
                     // redirect here
+
+                    history.push('/login')
                 }
             })
     }
 
     return (
     <div>
-      <h3>Login</h3>
+      <h3>Sign Up</h3>
         <form onSubmit={handleLogin}>
             <label>username:</label>
             <input id="username" name="username" type="text" onChange={handleChange}/>
