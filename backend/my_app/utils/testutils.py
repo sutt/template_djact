@@ -113,8 +113,7 @@ class CustomClient:
 class DbUtil:
 
     def __init__(self):
-        pass
-        User = get_user_model()
+        self.UserModel = get_user_model()
         
 
     def make_tweet(
@@ -141,7 +140,22 @@ class DbUtil:
         # TODO - make random lorem ipsum tweets
         pass
 
+    def check_for_user(
+        self,
+        username,
+        ):
+
+        try: 
+            query = self.UserModel.objects.get(username=username)
+            assert query.username == username
+            return True
+        except: 
+            return False
+        
+
+    @classmethod
     def delete_tweets(
+        cls,
         number=0,
         percentage=0,
         random=False,
